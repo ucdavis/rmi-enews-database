@@ -10,7 +10,7 @@ String.prototype.trunc = function (n) {
 };
 
 $(function () {
-    var url = "https://spreadsheets.google.com/feeds/list/0AhTxmYCYi3fpdEJDZnBsb2FnNTVucGdRb1pHRExyUmc/1/public/values?alt=json-in-script&callback=?";
+    var url = "https://spreadsheets.google.com/feeds/list/13bx652Db6aedLm5XTp9iDKGaDRYeqYdeXZdHNYXLsE8/1/public/values?alt=json-in-script&callback=?";
     $.getJSON(url, {}, function (data) {
         $.each(data.feed.entry, function (key, val) {
             var title = val.gsx$title.$t;
