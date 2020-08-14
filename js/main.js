@@ -1,7 +1,7 @@
 ﻿MyApp = {};
 MyApp.spreadsheetData = [];
 MyApp.headerData = [
-    { "sTitle": "Title" }, { "sTitle": "Authors" }, { "sTitle": "Date" }, { "sTitle": "Source" }, { "sTitle": "Year" }
+    { "sTitle": "Title" }, { "sTitle": "Authors" }, { "sTitle": "Source" }, { "sTitle": "Year" }
 ];
 
 String.prototype.trunc = function (n) {
@@ -12,15 +12,14 @@ $(function () {
     var url = "https://spreadsheets.google.com/feeds/list/13bx652Db6aedLm5XTp9iDKGaDRYeqYdeXZdHNYXLsE8/1/public/values?alt=json-in-script&callback=?";
     $.getJSON(url, {}, function (data) {
         $.each(data.feed.entry, function (key, val) {
-            console.log(val)
             var title = val.gsx$title.$t;
             var source = val.gsx$source.$t;
             var year = val.gsx$year.$t;
-            var date = val.gsx$date.$t
+            var authors = val.gsx$authors.$t
 
             MyApp.spreadsheetData.push(
                 [
-                    GenerateTitleColumn(val), title, date, source, year
+                    GenerateTitleColumn(val), title, authors, source, year
                 ]);
         });
 
