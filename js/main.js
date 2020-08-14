@@ -1,8 +1,7 @@
 ﻿MyApp = {};
 MyApp.spreadsheetData = [];
-MyApp.keywords = [];
 MyApp.headerData = [
-    { "sTitle": "Title" }, { "sTitle": "Authors" }, { "sTitle": "Source" }, { "sTitle": "Year" }, { "sTitle": "keywords" }
+    { "sTitle": "Title" }, { "sTitle": "Authors" }, { "sTitle": "Date" }, { "sTitle": "Source" }, { "sTitle": "Year" }
 ];
 
 String.prototype.trunc = function (n) {
@@ -13,25 +12,17 @@ $(function () {
     var url = "https://spreadsheets.google.com/feeds/list/13bx652Db6aedLm5XTp9iDKGaDRYeqYdeXZdHNYXLsE8/1/public/values?alt=json-in-script&callback=?";
     $.getJSON(url, {}, function (data) {
         $.each(data.feed.entry, function (key, val) {
+            console.log(val)
             var title = val.gsx$title.$t;
-            var authors = val.gsx$authors.$t;
             var source = val.gsx$source.$t;
             var year = val.gsx$year.$t;
-            var keyword = val.gsx$keywords.$t;
-            var abstract = val.gsx$abstract.$t;
-            var link = val.gsx$linkstowhat.$t;
+            var date = val.gsx$date.$t
 
             MyApp.spreadsheetData.push(
                 [
-                    GenerateTitleColumn(val), authors, source, year, keyword
+                    GenerateTitleColumn(val), title, date, source, year
                 ]);
-
-            if ($.inArray(keyword, MyApp.keywords) === -1 && keyword.length !== 0) {
-                MyApp.keywords.push(keyword);
-            }
         });
-
-        MyApp.keywords.sort();
 
         createDataTable();
         addFilters();
@@ -41,10 +32,9 @@ $(function () {
 
 function GenerateTitleColumn(entry) { //entry value from spreadsheet
     var title = entry.gsx$title.$t;
-    var abstract = entry.gsx$abstract.$t;
-    var link = entry.gsx$linkstowhat.$t;
+    var link = entry.gsx$linksto.$t;
 
-    return "<a href='" + link + "' class='abstract-popover' data-toggle='popover' data-content='" + abstract + "' data-original-title='Abstract'>" + title + "</a>";
+    return "<a href='" + link + "'>" + title + "</a>";
 }
 
 function abstractPopup() {
