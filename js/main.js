@@ -13,12 +13,12 @@ $(function () {
     $.getJSON(url, {}, function (data) {
         $.each(data.feed.entry, function (key, val) {
             var title = val.gsx$title.$t;
-            var source = val.gsx$date.$t;
             var year = val.gsx$year.$t;
+	    var date = val.gsx$date.$t;
 
             MyApp.spreadsheetData.push(
                 [
-                    GenerateTitleColumn(val), title, date, year
+                    GenerateTitleColumn(val), date, year
                 ]);
         });
 
@@ -122,8 +122,7 @@ function createDataTable() {
 
     MyApp.oTable = $("#spreadsheet").dataTable({
         "aoColumnDefs": [
-            { "sType": "link-content", "aTargets": [ 0 ] },
-            { "bVisible": false, "aTargets": [ -1 ] } //hide the keywords column for now (the last column, hence -1)
+            { "sType": "link-content", "aTargets": [ 0 ] }
         ],
         "iDisplayLength": 20,
         "bLengthChange": false,
