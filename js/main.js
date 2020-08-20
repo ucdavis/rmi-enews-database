@@ -1,5 +1,6 @@
 ﻿MyApp = {};
 MyApp.spreadsheetData = [];
+MyApp.years = [];
 MyApp.headerData = [
     { title: "Issue", type: "num", orderable: true }, { title: "Season/Month" }, { title: "Year" }
 ];
@@ -11,10 +12,10 @@ String.prototype.trunc = function (n) {
 $(function () {
     var url = "https://spreadsheets.google.com/feeds/list/13bx652Db6aedLm5XTp9iDKGaDRYeqYdeXZdHNYXLsE8/1/public/values?alt=json-in-script&callback=?";
     $.getJSON(url, {}, function (data) {
-        console.log(data)
         $.each(data.feed.entry, function (key, val) {
             var year = val.gsx$year.$t;
             var date = val.gsx$seasonmonth.$t;
+            MyApp.years.push(year);
 
             MyApp.spreadsheetData.push(
                 [
@@ -45,7 +46,7 @@ function abstractPopup() {
 function addFilters(){
     var $filter = $("#filter_elements");
     
-    $.each(MyApp.keywords, function (key, val) {
+    $.each(MyApp.years, function (key, val) {
         $filter.append('<li><label><input type="checkbox" name="' + val + '"> ' + val + '</label></li>');
     });
         
@@ -66,8 +67,7 @@ function addFilters(){
             }
         });
 
-        console.log(filterRegex);
-        MyApp.oTable.fnFilter(filterRegex, 4, true, false);
+        MyApp.oTable.column(2).search(filterRegex, true).draw();
         displayCurrentFilters();
     });
 
