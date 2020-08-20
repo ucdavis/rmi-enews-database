@@ -1,7 +1,7 @@
 ﻿MyApp = {};
 MyApp.spreadsheetData = [];
 MyApp.headerData = [
-    { "sTitle": "Title" }, { "sTitle": "Date" }, { "sTitle": "Year" }
+    { title: "Issue", type: "num", orderable: true }, { title: "Season/Month" }, { title: "Year" }
 ];
 
 String.prototype.trunc = function (n) {
@@ -11,10 +11,10 @@ String.prototype.trunc = function (n) {
 $(function () {
     var url = "https://spreadsheets.google.com/feeds/list/13bx652Db6aedLm5XTp9iDKGaDRYeqYdeXZdHNYXLsE8/1/public/values?alt=json-in-script&callback=?";
     $.getJSON(url, {}, function (data) {
+        console.log(data)
         $.each(data.feed.entry, function (key, val) {
-            var title = val.gsx$title.$t;
             var year = val.gsx$year.$t;
-	    var date = val.gsx$date.$t;
+            var date = val.gsx$seasonmonth.$t;
 
             MyApp.spreadsheetData.push(
                 [
@@ -29,7 +29,7 @@ $(function () {
 })
 
 function GenerateTitleColumn(entry) { //entry value from spreadsheet
-    var title = entry.gsx$title.$t;
+    var title = entry.gsx$issue.$t;
     var link = entry.gsx$linksto.$t;
 
     return "<a href='" + link + "'>" + title + "</a>";
@@ -105,28 +105,10 @@ function displayCurrentFilters() {
 }
 
 function createDataTable() {
-    //Create a sorter that uses case-insensitive html content
-    jQuery.extend(jQuery.fn.dataTableExt.oSort, {
-        "link-content-pre": function (a) {
-            return $(a).html().trim().toLowerCase();
-        },
-
-        "link-content-asc": function (a, b) {
-            return ((a < b) ? -1 : ((a > b) ? 1 : 0));
-        },
-
-        "link-content-desc": function (a, b) {
-            return ((a < b) ? 1 : ((a > b) ? -1 : 0));
-        }
-    });
-
-    MyApp.oTable = $("#spreadsheet").dataTable({
-        "aoColumnDefs": [
-            { "sType": "link-content", "aTargets": [ 0 ] }
-        ],
+    MyApp.oTable = $("#spreadsheet").DataTable({
         "iDisplayLength": 20,
-        "bLengthChange": false,
-        "aaData": MyApp.spreadsheetData,
-        "aoColumns": MyApp.headerData
+        lengthChange: false,
+        data: MyApp.spreadsheetData,
+        columns: MyApp.headerData
     });
 }
