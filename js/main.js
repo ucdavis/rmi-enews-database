@@ -23,6 +23,8 @@ $(function () {
                 ]);
         });
 
+        MyApp.years = [...new Set(MyApp.years)].sort((a, b) => a < b)
+
         createDataTable();
         addFilters();
         abstractPopup();
