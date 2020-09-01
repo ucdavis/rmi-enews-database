@@ -2,7 +2,7 @@
 MyApp.spreadsheetData = [];
 MyApp.years = [];
 MyApp.headerData = [
-    { title: "Issue", type: "num", orderable: true }, { title: "Season/Month" }, { title: "Year" }
+    { title: "Issue" }, { title: "Season/Month" }, { title: "Year" }
 ];
 
 String.prototype.trunc = function (n) {
@@ -34,6 +34,9 @@ $(function () {
 function GenerateTitleColumn(entry) { //entry value from spreadsheet
     var title = entry.gsx$issue.$t;
     var link = entry.gsx$linksto.$t;
+
+    // remove hash
+    title = title.substr(1)
 
     return "<a href='" + link + "'>" + title + "</a>";
 }
