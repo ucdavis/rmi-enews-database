@@ -114,6 +114,10 @@ function createDataTable() {
         "iDisplayLength": 20,
         lengthChange: false,
         data: MyApp.spreadsheetData,
-        columns: MyApp.headerData
+        columns: MyApp.headerData,
+        columnDefs: [
+            { orderData: [0], targets: 2 }
+        ],
+        order: [[0, 'desc']]
     });
 }
