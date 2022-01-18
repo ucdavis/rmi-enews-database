@@ -12,14 +12,16 @@ String.prototype.trunc = function (n) {
 $(function () {
     var url = "https://spreadsheets.google.com/feeds/list/13bx652Db6aedLm5XTp9iDKGaDRYeqYdeXZdHNYXLsE8/1/public/values?alt=json-in-script&callback=?";
     $.getJSON(url, {}, function (data) {
-        $.each(data.feed.entry, function (key, val) {
-            var year = val.gsx$year.$t;
-            var date = val.gsx$seasonmonth.$t;
+        for (let i = 1; i < data["values"].length; i++) {
+            const currRow = data["values"][i];
+
+            var year = currRow[0];
+            var date = currRow[1];
             MyApp.years.push(year);
 
             MyApp.spreadsheetData.push(
                 [
-                    GenerateTitleColumn(val), date, year
+                    GenerateTitleColumn(year, date)
                 ]);
         });
 
