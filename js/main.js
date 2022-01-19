@@ -18,8 +18,8 @@ $(function () {
     for (let i = 1; i < data["values"].length; i++) {
       const currRow = data["values"][i];
 
-      var year = currRow[0];
-      var date = currRow[1];
+      var year = currRow[1];
+      var date = currRow[2];
       MyApp.years.push(year);
 
       MyApp.spreadsheetData.push([GenerateTitleColumn(year, date)]);
