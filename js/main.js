@@ -33,7 +33,7 @@ $(function () {
   });
 });
 
-function GenerateTitleColumn(year, date) {
+function GenerateTitleColumn(link, title) {
   return "<a href='" + link + "'>" + title + "</a>";
 }
 
