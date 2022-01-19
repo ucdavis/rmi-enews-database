@@ -34,10 +34,6 @@ $(function () {
 });
 
 function GenerateTitleColumn(entry) {
-  //entry value from spreadsheet
-  var title = entry.gsx$issue.$t;
-  var link = entry.gsx$linksto.$t;
-
   // remove hash
   title = title.substr(1);
 
