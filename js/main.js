@@ -33,10 +33,7 @@ $(function () {
   });
 });
 
-function GenerateTitleColumn(entry) {
-  // remove hash
-  title = title.substr(1);
-
+function GenerateTitleColumn(year, date) {
   return "<a href='" + link + "'>" + title + "</a>";
 }
 
