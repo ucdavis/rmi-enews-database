@@ -19,10 +19,16 @@ $(function () {
       const currRow = data["values"][i];
 
       var year = currRow[2];
-      var date = currRow[3];
+      var date = currRow[1];
+      var title = currRow[0];
+      var link = currRow[4];
       MyApp.years.push(year);
 
-      MyApp.spreadsheetData.push([GenerateTitleColumn(year, date)]);
+      MyApp.spreadsheetData.push([
+        GenerateTitleColumn(link, title),
+        date,
+        year,
+      ]);
     }
 
     MyApp.years = [...new Set(MyApp.years)].sort((a, b) => a < b);
